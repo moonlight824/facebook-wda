@@ -72,6 +72,8 @@ def fetch(url: str, method="GET", data=None, timeout=None, chunk_size: int = _DE
         return resp
     except Exception as e:
         raise HTTPError(e)
+    finally:
+        conn.close()
 
 
 def _read_response(response:HTTPResponse, chunk_size: int = _DEFAULT_CHUNK_SIZE) -> bytearray:
