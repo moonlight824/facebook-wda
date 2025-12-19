@@ -55,6 +55,7 @@ def fetch(url: str, method="GET", data=None, timeout=None, chunk_size: int = _DE
     Raises:
         HTTPError
     """
+    conn = None
     try:
         method = method.upper()
         conn = http_create(url)
@@ -73,7 +74,8 @@ def fetch(url: str, method="GET", data=None, timeout=None, chunk_size: int = _DE
     except Exception as e:
         raise HTTPError(e)
     finally:
-        conn.close()
+        if conn:
+            conn.close()
 
 
 def _read_response(response:HTTPResponse, chunk_size: int = _DEFAULT_CHUNK_SIZE) -> bytearray:
