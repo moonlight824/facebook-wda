@@ -20,8 +20,8 @@ def http_create(url: str) -> HTTPConnection:
         device = select_device(udid)
         return device.make_http_connection(int(device_wda_port))
     elif u.scheme == "http+usbmux+remote":
-        remote_ip, remote_port, udid, device_wda_port = u.netloc.split(":")
-        usbmux_address = f"{remote_ip}:{remote_port}"
+        device_info, usbmux_address = u.netloc.split("@")
+        udid, device_wda_port = device_info.split(":")
         device = select_device(udid, usbmux_address=usbmux_address)
         return device.make_http_connection(int(device_wda_port), usbmux_address=usbmux_address)
     elif u.scheme == "http":
